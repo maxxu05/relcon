@@ -77,7 +77,7 @@ class Base_ModelClass():
         
         self.model_file = config.model_file
 
-        self.run_dir = os.path.join("experiments/out", config.run_dir)
+        self.run_dir = os.path.join("relcon/experiments/out", config.run_dir)
         os.makedirs(self.run_dir, exist_ok=True)
         self.device = config.device
         self.batch_size = config.batch_size
