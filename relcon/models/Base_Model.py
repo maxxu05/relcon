@@ -5,7 +5,7 @@ from tqdm import tqdm
 from abc import abstractmethod
 import os
 
-from relcon.data.Base_Datasets import Base_DatasetConfig
+from relcon.data.Base_Dataset import Base_DatasetConfig
 from relcon.nets.Base_Nets import Base_NetConfig
 # from eval.Base_Eval import Base_EvalConfig
 
@@ -155,7 +155,7 @@ class Base_ModelClass():
             printlog(printoutstring, self.run_dir)
 
     def test(self):
-        from utils.utils import printlog
+        from relcon.utils.utils import printlog
 
         printlog(f"Loading Best From Training", self.run_dir)
         self.load()
@@ -181,11 +181,12 @@ class Base_ModelClass():
         
             
     def load(self, ckpt="best", return_state_dict = False):
-        from utils.utils import printlog
+        from relcon.utils.utils import printlog
 
-        state_dict = torch.load(f'{self.run_dir}/checkpoint_{ckpt}.pkl', map_location=self.device)
+        ### TODO uncomment this out for final version
+        # state_dict = torch.load(f'{self.run_dir}/checkpoint_{ckpt}.pkl', map_location=self.device)
 
-        print(self.net.load_state_dict(state_dict["net"]))
-        printlog(f"Reloading {self.model_file} Model's ckpt {ckpt}, which is from epoch {state_dict['epoch']}", self.run_dir)
-        if return_state_dict:
-            return state_dict
+        # print(self.net.load_state_dict(state_dict["net"]))
+        # printlog(f"Reloading {self.model_file} Model's ckpt {ckpt}, which is from epoch {state_dict['epoch']}", self.run_dir)
+        # if return_state_dict:
+        #     return state_dict

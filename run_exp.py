@@ -9,7 +9,9 @@ from relcon.utils.imports import import_model
 from relcon.utils.datasets import load_data
 
 from relcon.experiments.configs.MotifDist_expconfigs import allmotifdist_expconfigs
-all_expconfigs = {**allmotifdist_expconfigs}
+from relcon.experiments.configs.RelCon_expconfigs import allrelcon_expconfigs
+
+all_expconfigs = {**allmotifdist_expconfigs, **allrelcon_expconfigs}
 
 import warnings
 from sklearn.exceptions import ConvergenceWarning
@@ -62,7 +64,7 @@ if __name__ == "__main__":
 
 
     try:
-        logpath = os.path.join("experiments/out", config.run_dir)
+        logpath = os.path.join("relcon/experiments/out", config.run_dir)
         printlog(f"----------------------------------------------------------------------------------- Config: {CONFIGFILE} -----------------------------------------------------------------------------------", logpath)
 
         # if not args.gputiloff:

@@ -10,8 +10,8 @@ class Net(torch.nn.Module):
     """
     def __init__(self, 
                  input_dims=1, 
-                 query_dimnum = None,
-                 key_dimnum = None,
+                 query_dimsize = None,
+                 key_dimsize = None,
                  embed_dim=256, 
                  sparsemax=False,
                  kernel_size=15, double_receptivefield=5, stride=1, revin=True):
@@ -23,26 +23,26 @@ class Net(torch.nn.Module):
         
 
         # dilated convs used
-        if query_dimnum is None:
-            query_dimnum = input_dims
+        if query_dimsize is None:
+            query_dimsize = input_dims
             
-        self.revin = RevIN(num_features=query_dimnum) 
+        self.revin = RevIN(num_features=query_dimsize) 
 
-        self.q_func = dilated_conv_net(in_channel=query_dimnum, out_channel=embed_dim, 
+        self.q_func = dilated_conv_net(in_channel=query_dimsize, out_channel=embed_dim, 
                                        kernel_size= kernel_size, stride=stride,
                                        bottleneck=embed_dim//8, double_receptivefield=double_receptivefield)
-        if key_dimnum is None:
-            key_dimnum = input_dims
-        self.k_func = dilated_conv_net(in_channel=key_dimnum, out_channel=embed_dim, 
+        if key_dimsize is None:
+            key_dimsize = input_dims
+        self.k_func = dilated_conv_net(in_channel=key_dimsize, out_channel=embed_dim, 
                                        kernel_size= kernel_size, stride=stride,
                                        bottleneck=embed_dim//8, double_receptivefield=double_receptivefield)
-        self.v_func = dilated_conv_net(in_channel=key_dimnum, out_channel=embed_dim, 
+        self.v_func = dilated_conv_net(in_channel=key_dimsize, out_channel=embed_dim, 
                                        kernel_size= kernel_size, stride=stride,
                                        bottleneck=embed_dim//8, double_receptivefield=double_receptivefield)
 
-        # identity matrix because we are using convs for in_projections
+        # identity matrix because we are already using convs for in_projections
         self.in_proj_weight = torch.concat((torch.eye(self.embed_dim),torch.eye(self.embed_dim),torch.eye(self.embed_dim))).requires_grad_(False)
-        self.out_proj = nn.Linear(embed_dim, query_dimnum)
+        self.out_proj = nn.Linear(embed_dim, query_dimsize)
 
 
     def forward(self, query_in, key_in, mask=None):

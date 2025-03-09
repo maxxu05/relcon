@@ -2,7 +2,7 @@ import os
 import torch
 import numpy as np
 
-from relcon.models.Base_Models import Base_ModelConfig
+from relcon.models.Base_Model import Base_ModelConfig
 
 
 def import_net(net_config: Base_ModelConfig):

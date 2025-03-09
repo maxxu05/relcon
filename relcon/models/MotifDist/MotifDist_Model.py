@@ -1,11 +1,8 @@
 
-from relcon.models.Base_Models import Base_ModelConfig, Base_ModelClass
+from relcon.models.Base_Model import Base_ModelConfig, Base_ModelClass
 import numpy as np
 import torch
-from torch import nn
-from torch.utils.data import Dataset, DataLoader
-import torch.nn.functional as F
-import os
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 
@@ -15,7 +12,7 @@ class MotifDist_ModelConfig(Base_ModelConfig):
                  key_dims: list = [0,1,2], 
                  **kwargs):
         super().__init__(model_folder = "MotifDist", 
-                         model_file = "MotifDist", 
+                         model_file = "MotifDist_Model", 
                          **kwargs)
         self.query_dims = query_dims
         self.key_dims =  key_dims
@@ -80,14 +77,14 @@ class Model(Base_ModelClass):
 
             reconstruction, attn_weights = self.net(query_in=query, 
                                                         key_in=key)
-            reconstruct_loss = torch.sum(torch.square(reconstruction - query.cuda()))
+            reconstruct_loss = torch.sum(torch.square(reconstruction - query.cuda()), dim=(1,2))
 
         self.net.train()
 
         return reconstruct_loss
     
 
-from relcon.data.Base_Datasets import OnTheFly_FolderNpyDataset
+from relcon.data.Base_Dataset import OnTheFly_FolderNpyDataset
 from relcon.models.MotifDist.utils.augmentations import noise_transform, scaling_transform, rotation_transform, negate_transform, time_flip_transform, channel_shuffle_transform, time_segment_permutation_transform, time_warp_transform
 
 class crossattn_augdataset(OnTheFly_FolderNpyDataset):
