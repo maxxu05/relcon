@@ -1,4 +1,5 @@
 relcon/data/datasets/*
+relcon/experiments/out/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
