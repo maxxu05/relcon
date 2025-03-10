@@ -218,9 +218,6 @@ class RelCon_ValidCandFolders_Dataset(OnTheFly_FolderNpyDataset):
         withinuser_cand_signals = []
         for name in withinuser_cand_names:
             withinuser_cand_signal = np.load(name).astype(np.float32)
-            ############## TODO REMOVE LATER #####################################
-            withinuser_cand_signal = withinuser_cand_signal[:256, 1:]
-            ############## TODO REMOVE LATER #####################################
             withinuser_cand_signals.append(withinuser_cand_signal)
 
         withinuser_cand_signals = np.stack(withinuser_cand_signals)

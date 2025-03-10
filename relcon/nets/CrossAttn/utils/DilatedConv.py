@@ -85,16 +85,11 @@ class dilated_conv_block(torch.nn.Module):
             mask == None
         ):  # this implies it is not the first layer, so we can use bottleneck layer and residual connection
             if self.stride != 1:
-                try:
-                    return self.instnorm(
-                        self.activation(
-                            self.dilated_conv(self.bottle(x)) + x[:, :, :: self.stride]
-                        )
+                return self.instnorm(
+                    self.activation(
+                        self.dilated_conv(self.bottle(x)) + x[:, :, :: self.stride]
                     )
-                except:
-                    import pdb
-
-                    pdb.set_trace()
+                )
             else:
                 return self.instnorm(
                     self.activation(self.dilated_conv(self.bottle(x)) + x)

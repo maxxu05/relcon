@@ -3,8 +3,10 @@ import os
 from tqdm import tqdm
 
 PATH = "relcon/data/datasets/dummydataset"
-NUM_SUBJECTS = 100
+NUM_SUBJECTS = 64
 NUM_HOURS_PER_SUBJECT = 2
+NUM_TS_PER_HOUR = 25
+
 TIMELEN = 256  # 2.56 long sequence sampled at 100 Hz
 CHANNELS = 3  # 3 axis accerlometry
 
@@ -20,7 +22,7 @@ def main():
         if subject_id < NUM_SUBJECTS // 2:
             TYPE = "train"
         elif subject_id < 3* NUM_SUBJECTS // 4:
-            TYPE = "valid"
+            TYPE = "val"
         else:
             TYPE = "test"
         typepath = os.path.join(PATH, TYPE)
@@ -35,8 +37,8 @@ def main():
             hourpath = os.path.join(subjectpath, f"hour_{hour_id}")
             os.makedirs(hourpath, exist_ok=True)
 
-            # construct 2.56 second chunks in a 100hz 1 hour chunk
-            for i in range(0, 100 * 60 * 60, 256):
+            # construct 2.56 second chunks sampled at 100hz
+            for i in range(NUM_TS_PER_HOUR):
                 # models expect numpy arrays of size TIMELEN, CHANNELS
                 timeseries = np.random.normal(size=(TIMELEN, CHANNELS))
                 np.save(os.path.join(hourpath, f"ts_{i}"), timeseries)

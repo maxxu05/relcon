@@ -20,7 +20,6 @@ class Net(torch.nn.Module):
         kernel_size=15,
         double_receptivefield=5,
         stride=1,
-        revin=True,
     ):
         super().__init__()
         # import pdb; pdb.set_trace()

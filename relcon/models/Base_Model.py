@@ -210,10 +210,9 @@ class Base_ModelClass:
     def load(self, ckpt="best", return_state_dict=False):
         from relcon.utils.utils import printlog
 
-        ### TODO uncomment this out for final version
-        # state_dict = torch.load(f'{self.run_dir}/checkpoint_{ckpt}.pkl', map_location=self.device)
+        state_dict = torch.load(f'{self.run_dir}/checkpoint_{ckpt}.pkl', map_location=self.device)
 
-        # print(self.net.load_state_dict(state_dict["net"]))
-        # printlog(f"Reloading {self.model_file} Model's ckpt {ckpt}, which is from epoch {state_dict['epoch']}", self.run_dir)
-        # if return_state_dict:
-        #     return state_dict
+        print(self.net.load_state_dict(state_dict["net"]))
+        printlog(f"Reloading {self.model_file} Model's ckpt {ckpt}, which is from epoch {state_dict['epoch']}", self.run_dir)
+        if return_state_dict:
+            return state_dict

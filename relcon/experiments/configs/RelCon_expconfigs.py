@@ -10,7 +10,7 @@ allrelcon_expconfigs = {}
 
 
 allrelcon_expconfigs["25_3_8_relcon"] = RelCon_ModelConfig(
-    withinuser_cands=5,
+    withinuser_cands=20,
     motifdist_expconfig_key="25_3_8_motifdist",
     data_config=SSLDataConfig(
         data_folder="relcon/data/datasets/dummydataset",

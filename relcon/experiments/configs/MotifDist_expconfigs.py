@@ -25,7 +25,7 @@ allmotifdist_expconfigs["25_3_8_motifdist"] = MotifDist_ModelConfig(
             "double_receptivefield": 2,
         },
     ),
-    epochs=20,
+    epochs=10,
     lr=0.001,
     batch_size=64,
     save_epochfreq=10,
