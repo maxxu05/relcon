@@ -3,7 +3,7 @@ import os
 from tqdm import tqdm
 
 PATH = "relcon/data/datasets/dummydataset"
-NUM_SUBJECTS = 1000
+NUM_SUBJECTS = 100
 NUM_HOURS_PER_SUBJECT = 2
 TIMELEN = 256  # 2.56 long sequence sampled at 100 Hz
 CHANNELS = 3  # 3 axis accerlometry
@@ -16,8 +16,18 @@ def main():
 
     os.makedirs(PATH, exist_ok=True)
     for subject_id in tqdm(range(NUM_SUBJECTS)):
-        # construct parent folder for the subject-level
-        subjectpath = os.path.join(PATH, f"subject_{subject_id}")
+        # construct parent folder for train/val/test
+        if subject_id < NUM_SUBJECTS // 2:
+            TYPE = "train"
+        elif subject_id < 3* NUM_SUBJECTS // 4:
+            TYPE = "valid"
+        else:
+            TYPE = "test"
+        typepath = os.path.join(PATH, TYPE)
+        os.makedirs(typepath, exist_ok=True)
+
+        # construct sub-parent folder for the subject-level
+        subjectpath = os.path.join(typepath, f"subject_{subject_id}")
         os.makedirs(subjectpath, exist_ok=True)
         for hour_id in range(NUM_HOURS_PER_SUBJECT):
             # Construct child folder for hour-level

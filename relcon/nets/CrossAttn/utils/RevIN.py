@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 
+
 class RevIN(nn.Module):
     def __init__(self, num_features: int, eps=1e-5, affine=True):
         """
@@ -15,14 +16,15 @@ class RevIN(nn.Module):
         if self.affine:
             self._init_params()
 
-    def forward(self, x, mode:str, recalc_stats=True):
-        if mode == 'norm':
+    def forward(self, x, mode: str, recalc_stats=True):
+        if mode == "norm":
             if recalc_stats:
                 self._get_statistics(x)
             x = self._normalize(x)
-        elif mode == 'denorm':
+        elif mode == "denorm":
             x = self._denormalize(x)
-        else: raise NotImplementedError
+        else:
+            raise NotImplementedError
         return x
 
     def _init_params(self):
@@ -32,9 +34,11 @@ class RevIN(nn.Module):
 
     def _get_statistics(self, x):
         # import pdb; pdb.set_trace()
-        dim2reduce = tuple(range(1, x.ndim-1))
+        dim2reduce = tuple(range(1, x.ndim - 1))
         self.mean = torch.mean(x, dim=dim2reduce, keepdim=True).detach()
-        self.stdev = torch.sqrt(torch.var(x, dim=dim2reduce, keepdim=True, unbiased=False) + self.eps).detach()
+        self.stdev = torch.sqrt(
+            torch.var(x, dim=dim2reduce, keepdim=True, unbiased=False) + self.eps
+        ).detach()
 
     def _normalize(self, x):
         x = x - self.mean
@@ -48,7 +52,7 @@ class RevIN(nn.Module):
     def _denormalize(self, x):
         if self.affine:
             x = x - self.affine_bias
-            x = x / (self.affine_weight + self.eps*self.eps)
+            x = x / (self.affine_weight + self.eps * self.eps)
         x = x * self.stdev
         x = x + self.mean
         return x

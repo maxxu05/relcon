@@ -5,6 +5,7 @@ import pathlib
 from collections import defaultdict
 import pickle
 
+
 def load_data(data_config):
     if "supervised" in data_config.type:
         data_path = f"data/{data_config.data_folder}"
@@ -61,8 +62,9 @@ def filter_files_by_npy_count(files, min_py_files=5):
 
     # Filter files based on the precomputed .npy counts
     qualifying_files = [
-        file for file in files if directory_npy_count[pathlib.Path(file).parent] >= min_py_files
+        file
+        for file in files
+        if directory_npy_count[pathlib.Path(file).parent] >= min_py_files
     ]
 
     return qualifying_files
-

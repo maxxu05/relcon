@@ -44,8 +44,6 @@ except ModuleNotFoundError:
     np = None
 
 
-
-
 def fractional_max_pool2d_with_indices(
     input: Tensor,
     kernel_size: BroadcastingList2[int],
@@ -964,9 +962,6 @@ adaptive_max_pool3d = boolean_dispatch(
 )
 
 
-
-
-
 def adaptive_avg_pool2d(input: Tensor, output_size: BroadcastingList2[int]) -> Tensor:
     r"""Apply a 2D adaptive average pooling over an input signal composed of several input planes.
 
@@ -1281,7 +1276,6 @@ def _threshold(
 threshold = _threshold
 
 
-
 def relu(input: Tensor, inplace: bool = False) -> Tensor:  # noqa: D400,D402
     r"""relu(input, inplace=False) -> Tensor
 
@@ -1349,7 +1343,6 @@ def hardtanh(
     return result
 
 
-
 def relu6(input: Tensor, inplace: bool = False) -> Tensor:  # noqa: D400,D402
     r"""relu6(input, inplace=False) -> Tensor
 
@@ -1380,8 +1373,6 @@ def elu(input: Tensor, alpha: float = 1.0, inplace: bool = False) -> Tensor:
     return result
 
 
-
-
 def selu(input: Tensor, inplace: bool = False) -> Tensor:  # noqa: D400,D402
     r"""selu(input, inplace=False) -> Tensor
 
@@ -1399,8 +1390,6 @@ def selu(input: Tensor, inplace: bool = False) -> Tensor:  # noqa: D400,D402
     else:
         result = torch.selu(input)
     return result
-
-
 
 
 def celu(
@@ -1426,8 +1415,6 @@ def celu(
     return result
 
 
-
-
 def leaky_relu(
     input: Tensor,
     negative_slope: float = 0.01,
@@ -1450,8 +1437,6 @@ def leaky_relu(
     else:
         result = torch._C._nn.leaky_relu(input, negative_slope)
     return result
-
-
 
 
 def rrelu(
@@ -1484,7 +1469,6 @@ def rrelu(
     return result
 
 
-
 def tanhshrink(input):  # noqa: D400,D402
     r"""tanhshrink(input) -> Tensor
 
@@ -1507,7 +1491,6 @@ def softsign(input):  # noqa: D400,D402
     if has_torch_function_unary(input):
         return handle_torch_function(softsign, (input,), input)
     return input / (input.abs() + 1)
-
 
 
 def _get_softmax_dim(name: str, ndim: int, stacklevel: int) -> int:
@@ -1707,7 +1690,6 @@ def log_softmax(
     return ret
 
 
-
 def tanh(input):  # noqa: D400,D402
     r"""tanh(input) -> Tensor
 
@@ -1749,8 +1731,6 @@ def hardsigmoid(input: Tensor, inplace: bool = False) -> Tensor:
     if inplace:
         return torch._C._nn.hardsigmoid_(input)
     return torch._C._nn.hardsigmoid(input)
-
-
 
 
 def silu(input: Tensor, inplace: bool = False) -> Tensor:
@@ -4365,8 +4345,6 @@ pad.__module__ = "torch.nn.functional"
 # distance
 
 
-
-
 def triplet_margin_loss(
     anchor: Tensor,
     positive: Tensor,
@@ -4748,7 +4726,6 @@ def _in_projection(
         Eq,
     ), f"expecting value bias shape of {(Eq,)}, but got {b_v.shape}"
     return linear(q, w_q, b_q), linear(k, w_k, b_k), linear(v, w_v, b_v)
-
 
 
 def _mha_shape_check(
@@ -5224,7 +5201,7 @@ def multi_head_attention_forward(
             )
         else:
             attn_output_weights = torch.bmm(q_scaled, k.transpose(-2, -1))
-        
+
         ################################################# new ##########################################3
         if sparsemax:
             attn_output_weights = softmax(attn_output_weights, dim=-1)
@@ -5281,6 +5258,7 @@ def multi_head_attention_forward(
             attn_output = attn_output.squeeze(1)
         return attn_output, None
 
+
 linear = torch._C._nn.linear
 
 ############################################################################################
@@ -5292,13 +5270,12 @@ Pytorch implementation of Sparsemax function from:
 """
 
 
-
 class Sparsemax(nn.Module):
     """Sparsemax function."""
 
     def __init__(self, dim=None):
         """Initialize sparsemax activation
-        
+
         Args:
             dim (int, optional): The dimension over which to apply the sparsemax function.
         """
@@ -5333,7 +5310,9 @@ class Sparsemax(nn.Module):
         # (NOTE: Can be replaced with linear time selection method described here:
         # http://stanford.edu/~jduchi/projects/DuchiShSiCh08.html)
         zs = torch.sort(input=input, dim=dim, descending=True)[0]
-        range = torch.arange(start=1, end=number_of_logits + 1, step=1, device=device, dtype=input.dtype).view(1, -1)
+        range = torch.arange(
+            start=1, end=number_of_logits + 1, step=1, device=device, dtype=input.dtype
+        ).view(1, -1)
         range = range.expand_as(zs)
 
         # Determine sparsity of projection
