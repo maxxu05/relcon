@@ -1,3 +1,43 @@
+"""
+This function constructs a dummy dataset that mimics our original pre-training dataset. 
+Due to privacy concerns and IRB restrictions, we will be unable to release our pre-training 
+data nor our model weights. Therefore, if you would like to pre-train the RelCon model on 
+your own dataset, please pre-process the data so that the numpy time-series files follows 
+the below structure.
+
+relcon/
+└── data/
+    └── datasets/
+        └── dummydataset/
+            ├── train/
+            │   ├── subject_0/
+            │   │   ├── hour_0/
+            │   │   │   ├── ts_0.npy
+            │   │   │   ├── ts_1.npy
+            │   │   │   └── ...
+            │   │   └── hour_1/
+            │   │       ├── ts_0.npy
+            │   │       ├── ts_1.npy
+            │   │       └── ...
+            │   └── subject_1/
+            │       └── ...
+            ├── val/
+            │   ├── subject_32/
+            │   │   └── hour_0/
+            │   │       ├── ts_0.npy
+            │   │       └── ...
+            │   └── subject_33/
+            │       └── ...
+            └── test/
+                ├── subject_48/
+                │   └── hour_0/
+                │       ├── ts_0.npy
+                │       └── ...
+                └── subject_49/
+                    └── ...
+
+"""
+
 import numpy as np
 import os
 from tqdm import tqdm
@@ -12,16 +52,12 @@ CHANNELS = 3  # 3 axis accerlometry
 
 
 def main():
-    # if os.path.exists(PATH):
-    #     print("dataset already exists")
-    #     return
-
     os.makedirs(PATH, exist_ok=True)
     for subject_id in tqdm(range(NUM_SUBJECTS)):
         # construct parent folder for train/val/test
         if subject_id < NUM_SUBJECTS // 2:
             TYPE = "train"
-        elif subject_id < 3* NUM_SUBJECTS // 4:
+        elif subject_id < 3 * NUM_SUBJECTS // 4:
             TYPE = "val"
         else:
             TYPE = "test"
