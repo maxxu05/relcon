@@ -1,5 +1,6 @@
 relcon/data/datasets/*
 relcon/experiments/out/*
+.vscode/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
