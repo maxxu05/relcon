@@ -70,7 +70,7 @@ if __name__ == "__main__":
         # if not args.gputiloff:
         #     rt = RepeatedTimer(5, repeating_func, path=logpath, killafter=30) # it auto-starts, no need of rt.start()
 
-        if (args.retrain == True) or (not os.path.exists(os.path.join("experiments/out/", 
+        if (args.retrain == True) or (not os.path.exists(os.path.join("relcon/experiments/out/", 
                                                                 config.run_dir, 
                                                                 "checkpoint_best.pkl"))):
             model.fit()
@@ -84,7 +84,6 @@ if __name__ == "__main__":
                 load_data(data_config = eval_config.data_config)
             
             eval_config.set_rundir(os.path.join(CONFIGFILE, eval_config.name, eval_config.model_file))
-            # import pdb; pdb.set_trace()
             evalmodel = import_model(eval_config, 
                                     train_data=train_data, train_labels=train_labels, 
                                     val_data=val_data, val_labels=val_labels, 
