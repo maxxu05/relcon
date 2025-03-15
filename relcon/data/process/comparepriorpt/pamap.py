@@ -23,18 +23,19 @@ import numpy as np
 import glob
 import zipfile
 from relcon.data.process.utils.download import downloadextract
+from sklearn.model_selection import LeaveOneGroupOut
 
 def main(rawpath):
     NAME = "pamap2"
     LINK = "https://archive.ics.uci.edu/static/public/231/pamap2+physical+activity+monitoring.zip"
-    downloadextract(rawpath=rawpath, name=NAME, link = LINK)
+    # downloadextract(rawpath=rawpath, name=NAME, link = LINK)
 
     data_root = os.path.join(rawpath, NAME)
 
     if not os.path.exists(os.path.join(data_root, NAME, "PAMAP2_Dataset")):
         with zipfile.ZipFile(os.path.join(data_root, "PAMAP2_Dataset.zip"),"r") as zip_ref:
             zip_ref.extractall(data_root)
-    # os.remove(os.path.join(data_root, NAME, "PAMAP2_Dataset.zip")) 
+    os.remove(os.path.join(data_root, NAME, "PAMAP2_Dataset.zip")) 
 
     data_root_new = os.path.join(data_root, "PAMAP2_Dataset")
 
@@ -45,6 +46,7 @@ def main(rawpath):
     optional_file_paths = glob.glob(os.path.join(data_path, "*.dat"))
     file_paths = protocol_file_paths + optional_file_paths
 
+    ##### prior code from original codebase: https://github.com/OxWearables/ssl-wearables
     print("Processing for 10sec window..")
     X_path, y_path, pid_path = get_write_paths(os.path.join(data_root, "processed"))
     epoch_len = 10
@@ -52,6 +54,35 @@ def main(rawpath):
     process_all(file_paths, X_path, y_path, pid_path, epoch_len, overlap)
     print("Saved X to ", X_path)
     print("Saved y to ", y_path)
+
+    ##### now we slightly preprocess it further by creating files for each CV
+    pid = np.load(os.path.join(data_root, "processed", "pid.npy"))
+    X = np.load(os.path.join(data_root, "processed", "X.npy"))
+    y = np.load(os.path.join(data_root, "processed", "Y.npy"))
+    logo = LeaveOneGroupOut()
+    inds = np.arange(pid.shape[0])
+    for i, (train_inds, test_inds) in enumerate(logo.split(inds, groups=pid)):
+        pid_train = pid[train_inds]
+
+        logo2 = LeaveOneGroupOut()
+        for _, (train_inds_true, val_inds) in enumerate(logo2.split(train_inds, groups=pid_train)):
+            train_X = X[train_inds_true]
+            train_y = y[train_inds_true]
+
+            val_X = X[val_inds]
+            val_y = y[val_inds]
+
+            test_X = X[test_inds]
+            test_y = y[test_inds]
+
+            np.save(os.path.join(data_root, "processed", f"cv{i}_train_X.npy"), train_X)
+            np.save(os.path.join(data_root, "processed", f"cv{i}_train_y.npy"), train_y)
+            
+            np.save(os.path.join(data_root, "processed", f"cv{i}_val_X.npy"), val_X)
+            np.save(os.path.join(data_root, "processed", f"cv{i}_val_y.npy"), val_y)
+
+            np.save(os.path.join(data_root, "processed", f"cv{i}_test_X.npy"), test_X)
+            np.save(os.path.join(data_root, "processed", f"cv{i}_test_y.npy"), test_y)
 
 
 def get_data_content(data_path):

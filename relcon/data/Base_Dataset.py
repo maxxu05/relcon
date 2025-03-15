@@ -11,6 +11,14 @@ class Base_DatasetConfig:
         self.data_folder = data_folder
         self.type = None
 
+class CV_SupervisedDataConfig(Base_DatasetConfig):
+    def __init__(self, X_annotates, y_annotate: str, **kwargs):
+        super().__init__(**kwargs)
+
+        self.X_annotates = X_annotates  # ["ppg"]
+        self.y_annotate = y_annotate  # "harmstress_notstress"
+
+        self.type = "cv_supervised"
 
 class SupervisedDataConfig(Base_DatasetConfig):
     def __init__(self, X_annotates, y_annotate: str, **kwargs):
