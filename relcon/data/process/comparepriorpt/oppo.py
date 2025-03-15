@@ -45,8 +45,9 @@ def main(rawpath):
 
     ##### now we slightly preprocess it further by creating files for each CV
     pid = np.load(os.path.join(data_root, "processed", "pid.npy"))
-    X = np.load(os.path.join(data_root, "processed", "X.npy"))
+    X = np.load(os.path.join(data_root, "processed", "X.npy")).transpose(0,2,1)
     y = np.load(os.path.join(data_root, "processed", "Y.npy"))
+    y = np.searchsorted(np.unique(y), y)
     logo = LeaveOneGroupOut()
     inds = np.arange(pid.shape[0])
     for i, (train_inds, test_inds) in enumerate(logo.split(inds, groups=pid)):

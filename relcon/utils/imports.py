@@ -23,8 +23,6 @@ def import_model(
     val_labels=None,
     test_data=None,
     test_labels=None,
-    data_normalizer=None,
-    data_clipping=None,
     reload_ckpt=False,
     evalmodel=False,
     resume_on=False,
@@ -54,6 +52,6 @@ def import_model(
         resume_on=resume_on,
     )
     if reload_ckpt:
-        model.load("best")
+        model.load(reload_ckpt)
 
     return model

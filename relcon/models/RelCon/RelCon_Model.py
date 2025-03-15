@@ -36,7 +36,7 @@ class Model(Base_ModelClass):
         motifdist_config = allmotifdist_expconfigs[self.config.motifdist_expconfig_key]
 
         motifdist_config.set_rundir(self.config.motifdist_expconfig_key)
-        self.motifdist = import_model(model_config=motifdist_config, reload_ckpt=True)
+        self.motifdist = import_model(model_config=motifdist_config, reload_ckpt="best")
         self.motifdist.net = self.motifdist.net.cuda()
 
     def setup_dataloader(self, X, y, train: bool) -> torch.utils.data.DataLoader:

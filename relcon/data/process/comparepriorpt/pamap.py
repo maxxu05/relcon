@@ -28,7 +28,7 @@ from sklearn.model_selection import LeaveOneGroupOut
 def main(rawpath):
     NAME = "pamap2"
     LINK = "https://archive.ics.uci.edu/static/public/231/pamap2+physical+activity+monitoring.zip"
-    # downloadextract(rawpath=rawpath, name=NAME, link = LINK)
+    downloadextract(rawpath=rawpath, name=NAME, link = LINK)
 
     data_root = os.path.join(rawpath, NAME)
 
@@ -57,8 +57,9 @@ def main(rawpath):
 
     ##### now we slightly preprocess it further by creating files for each CV
     pid = np.load(os.path.join(data_root, "processed", "pid.npy"))
-    X = np.load(os.path.join(data_root, "processed", "X.npy"))
+    X = np.load(os.path.join(data_root, "processed", "X.npy")).transpose(0,2,1)
     y = np.load(os.path.join(data_root, "processed", "Y.npy"))
+    y = np.searchsorted(np.unique(y), y)
     logo = LeaveOneGroupOut()
     inds = np.arange(pid.shape[0])
     for i, (train_inds, test_inds) in enumerate(logo.split(inds, groups=pid)):

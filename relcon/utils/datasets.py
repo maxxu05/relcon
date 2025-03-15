@@ -6,26 +6,26 @@ from collections import defaultdict
 import pickle
 
 
-def load_data(data_config):
+def load_data(data_config, cv_split=None):
+    if cv_split is not None:
+        cv_anno = f"cv{cv_split}_"
+    else:
+        cv_anno = ""
+
     if "supervised" in data_config.type:
-        data_path = f"data/{data_config.data_folder}"
+        data_path = os.path.join(data_config.data_folder)
         final_out = []
         for mode in ["train", "val", "test"]:
             # try:
             X = []
-            for (
-                X_anno
-            ) in (
-                data_config.X_annotates
-            ):  ## for downstram task, this block needs to be changed,
-                ## ppg and acc will be in the same np file
+            for X_anno in data_config.X_annotates:
                 X_temp = torch.Tensor(
-                    np.load(os.path.join(data_path, f"{mode}_X_{X_anno}.npy"))
+                    np.load(os.path.join(data_path, f"{cv_anno}{mode}_X{X_anno}.npy"))
                 )
                 X.append(X_temp)
             X = torch.cat(X, dim=1)
             y = np.load(
-                os.path.join(data_path, f"{mode}_y_{data_config.y_annotate}.npy")
+                os.path.join(data_path, f"{cv_anno}{mode}_y{data_config.y_annotate}.npy")
             )
             final_out.extend([X, y])
 

@@ -1,6 +1,6 @@
 from relcon.nets.Base_Nets import Base_NetConfig
 
-# from eval.Base_Eval import Base_EvalConfig
+from relcon.eval.Base_Eval import Base_EvalConfig
 from relcon.data.Base_Dataset import SSLDataConfig, SupervisedDataConfig
 
 from relcon.models.RelCon.RelCon_Model import RelCon_ModelConfig
@@ -60,4 +60,84 @@ allrelcon_expconfigs["25_3_8_relcon"] = RelCon_ModelConfig(
     lr=0.000001,
     batch_size=64,
     save_epochfreq=10,
+    eval_configs = [
+            Base_EvalConfig(
+                name="HHAR | Linear Probe | Comparison against SSL Benchmark", 
+                model_folder="Classify",
+                model_file="linear_probe",
+                cv_splits = 5,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/sslbench/hhar/processed",
+                ),
+            ),
+            Base_EvalConfig(
+                name="Motionsense | Linear Probe | Comparison against SSL Benchmark", 
+                model_folder="Classify",
+                model_file="linear_probe",
+                cv_splits = 5,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/sslbench/motionsense/processed",
+                ),
+            ),
+            Base_EvalConfig(
+                name="PAMAP2 | Linear Probe | Comparison against SSL Benchmark", 
+                model_folder="Classify",
+                model_file="linear_probe",
+                cv_splits = 5,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/sslbench/pamap2/processed",
+                ),
+            ),
+            Base_EvalConfig(
+                name="PAMAP2 | MLP Probe | Comparison against Prior Pre-trained Model", 
+                model_folder="Classify",
+                model_file="MLP_probe",
+                cv_splits = 8,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/priorpt/pamap2/processed",
+                ),
+            ),
+            Base_EvalConfig(
+                name="PAMAP2 | MLP Fine-Tune | Comparison against Prior Pre-trained Model", 
+                model_folder="Classify",
+                model_file="MLP_finetune",
+                cv_splits = 8,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/priorpt/pamap2/processed",
+                ),
+                evalnetparams = {'embed_dim': 256,
+                                 "mlp_dim": 512,
+                                 "class_num": 8},
+                epochs=10, lr=.001, batch_size=16, save_epochfreq=5,
+            ),
+            Base_EvalConfig(
+                name="Opportunity | MLP Probe | Comparison against Prior Pre-trained Model", 
+                model_folder="Classify",
+                model_file="MLP_probe",
+                cv_splits = 4,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/priorpt/opportunity/processed",
+                ),
+            ),
+            Base_EvalConfig(
+                name="Opportunity | MLP Fine-Tune | Comparison against Prior Pre-trained Model", 
+                model_folder="Classify",
+                model_file="MLP_finetune",
+                cv_splits = 4,
+                # data parameters
+                data_config=SupervisedDataConfig(
+                    data_folder="relcon/data/datasets/priorpt/opportunity/processed",
+                ),
+                evalnetparams = {'embed_dim': 256,
+                                 "mlp_dim": 512,
+                                 "class_num": 8},
+                epochs=10, lr=.001, batch_size=16, save_epochfreq=5,
+            ),
+    ]
 )
