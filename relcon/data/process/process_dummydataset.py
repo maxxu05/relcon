@@ -1,7 +1,7 @@
 """
 This function constructs a dummy dataset that mimics our original pre-training dataset. 
 Due to privacy concerns and IRB restrictions, we will be unable to release our pre-training 
-data nor our model weights. Therefore, if you would like to pre-train the RelCon model on 
+data. Therefore, if you would like to pre-train the RelCon model on 
 your own dataset, please pre-process the data so that the numpy time-series files follows 
 the below structure.
 
