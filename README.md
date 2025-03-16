@@ -10,10 +10,47 @@ Maxwell A Xu<sup>1,2*</sup>, Jaya Narain<sup>1</sup>, Gregory Darnell<sup>1</sup
 
 ####   Accepted at ICLR 2025. Please read our paper here: [https://arxiv.org/abs/2311.00519](https://arxiv.org/abs/2411.18822).
 
+<b>Abstract</b>: We present RelCon, a novel self-supervised Relative Contrastive learning approach for training a motion foundation model from wearable accelerometry sensors. First, a learnable distance measure is trained to capture motif similarity and domain-specific semantic information such as rotation invariance. Then, the learned distance provides a measurement of semantic similarity between a pair of accelerometry time-series, which we use to train our foundation model to model relative relationships across time and across subjects. The foundation model is trained on 1 billion segments from 87,376 participants, and achieves state-of-the-art performance across multiple downstream tasks, including human activity recognition and gait metric regression. To our knowledge, we are the first to show the generalizability of a foundation model with motion data from wearables across distinct evaluation tasks.
 
-## Introduction
-We present RelCon, a novel self-supervised Relative Contrastive learning approach for training a motion foundation model from wearable accelerometry sensors. First, a learnable distance measure is trained to capture motif similarity and domain-specific semantic information such as rotation invariance. Then, the learned distance provides a measurement of semantic similarity between a pair of accelerometry time-series, which we use to train our foundation model to model relative relationships across time and across subjects. The foundation model is trained on 1 billion segments from 87,376 participants, and achieves state-of-the-art performance across multiple downstream tasks, including human activity recognition and gait metric regression. To our knowledge, we are the first to show the generalizability of a foundation model with motion data from wearables across distinct evaluation tasks.
+<center> RelCon FM - Field Human Activity Recognition</center>
 
+<div align="center">
+<img src="figs/relcon_har.png" width=75%  style="background-color:white;> 
+</div>
+
+
+<center> RelCon FM - Gait Metric Regression Correlation </center>
+
+<div align="center">
+<img src="figs/relcon_gait.png" width=50%  style="background-color:white;> 
+</div>
+
+
+
+<br>
+
+<!-- <b>Key Idea of RelCon Approach</b>:  Each sequence color represents a different user's time-series. RelCon draws candidates from both within- and between-user and ranks them by their relative similarity via a learnable distance function. Then, it iteratively applies a contrastive loss, selecting one candidate as positive while assigning the more distant as negative. This grants our model the ability to capture subtle, yet meaningful, patterns in the data that are essential for ensuring robustness and generalizability across diverse and dynamic real-world settings
+
+<div align="center">
+<img src="figs/relcon_diagram.png" width=30%  style="background-color:white;> 
+</div>
+
+<br> -->
+
+<div style="display: flex; align-items: center;">
+
+<div style="flex: 1;">
+<b>Key Idea of RelCon Approach</b>: Each sequence color represents a different user's time-series. RelCon draws candidates from both within- and between-user and ranks them by their relative similarity via a learnable distance function. Then, it iteratively applies a contrastive loss, selecting one candidate as positive while assigning the more distant as negative. This grants our model the ability to capture subtle, yet meaningful, patterns in the data that are essential for ensuring robustness and generalizability across diverse and dynamic real-world settings.
+</div>
+
+<div style="flex: 0 0 auto; margin-left: 20px;">
+<img src="figs/relcon_diagram.png" width="180" style="background-color:white;">
+</div>
+
+</div>
+
+
+<br>
 
 
 This codebase includes the full RelCon methodology and pre-training pipeline, along with data preprocessing and evaluation scripts for the public benchmarks presented in the paper. While we cannot release the pre-training dataset or the associated model weights, this repository provides the complete pre-training pipeline, enabling researchers to retrain the RelCon model on their own datasets. We hope this release will help construct a unified benchmark for motion tasks and also help facilitate further research in self-supervised learning for time-series foundation models and wearable data analysis
