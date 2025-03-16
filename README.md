@@ -25,7 +25,7 @@ Maxwell A Xu<sup>1,2*</sup>, Jaya Narain<sup>1</sup>, Gregory Darnell<sup>1</sup
 
 <br>
 
-<img align="right" src="figs/relcon_diagram.png" width="20%" style="background-color:white;">
+<img align="left" src="figs/relcon_diagram.png" width="20%" style="background-color:white;">
 <b>Key Idea of RelCon Approach</b>: Each sequence color represents a different user's time-series. RelCon draws candidates from both within- and between-user and ranks them by their relative similarity via a learnable distance function. Then, it iteratively applies a contrastive loss, selecting one candidate as positive while assigning the more distant as negative. This grants our model the ability to capture subtle, yet meaningful, patterns in the data that are essential for ensuring robustness and generalizability across diverse and dynamic real-world settings.
 
 <br>
