@@ -58,7 +58,7 @@ The [Opportunity](https://archive.ics.uci.edu/dataset/226/opportunity+activity+r
 
 ### (C) Training and Evaluating RelCon
 
-#### [Step 1] Training the Learnable Distance Measure
+### [Step 1] Training the Learnable Distance Measure
 
 We train a neural network to **learn a distance measure to identify** whether two sequences have **similar temporal motifs** and are **semantically similar**. After training, the architecture is frozen and used as a static function **to determine the relative similarities of candidate samples** in the RelCon approach. 
 
@@ -83,10 +83,9 @@ The training pipeline can be found in `models/MotifDist/MotifDist_Model.py` and 
 
 `--config` refers to the specific dictionary str key associated with a given config that includes all experimental parameters, such as epochs or learning rate. Specifically `25_3_8_motifdist` originates from `experiments/configs/MotifDist_expconfigs.py`. All available configs can be found in `experiments/configs/`
 
-#### [Step 2] Training and Evaluating RelCon <sub> <sup> where all Pairs are Positive ... but Some Pairs are More Positive than Others.</sup> </sub>
+### [Step 2] Training and Evaluating RelCon <sub> <sup> where all Pairs are Positive ... but Some Pairs are More Positive than Others.</sup> </sub>
 
-The RelCon approach now takes the previously trained learnable distance measure and uses it to identify which candidates are more positive and which are more negative. Then it learns an embedding space that preserves this ranking of "positiveness". 
-
+The RelCon approach now takes the previously trained learnable distance measure and uses it to identify which candidates are more positive and which are more negative. RelCon then learns an **embedding space** that preserves the **hierarchical structure of relative similarities** between all of its candidates. This allows the model to **capture the subtle semantic differences between similar but distinct motions**, such as distinguishing between walking and running, or between indoor and outdoor cycling.
 
 
 <!-- $$   
@@ -97,7 +96,7 @@ The RelCon approach now takes the previously trained learnable distance measure 
 \end{align*}
 $$ -->
 
-The training pipeline and relative loss function can be found in `models/RelCon/RelCon_Model.py`, and it uses a ResNet backbone to encode the signals, which can be found in `nets/ResNet1D/ResNet1D_Net.py`. RelCon can be trained by running:
+The training pipeline and relative loss function can be found in `models/RelCon/RelCon_Model.py`. RelCon is a network agnostic approach, but in our implementation, we use a ResNet backbone to encode the signals, which can be found in `nets/ResNet1D/ResNet1D_Net.py`. RelCon can be trained by running:
 
     python run_exp.py --config 25_3_8_relcon
 
