@@ -1,9 +1,9 @@
 # RelCon: Relative Contrastive Learning for a Motion Foundation Model for Wearable Data
 Maxwell A Xu<sup>1,2*</sup>, Jaya Narain<sup>1</sup>, Gregory Darnell<sup>1</sup>, Haraldur T Hallgrimsson<sup>1</sup>, Hyewon Jeong<sup>1,3*</sup>, Darren Forde<sup>1</sup>, Richard Andres Fineman<sup>1</sup>, Karthik Jayaraman Raghuram<sup>1</sup>, James Matthew Rehg<sup>2</sup>, Shirley You Ren<sup>1</sup> 
 
-<sub><sup>1</sup> Apple Inc.
-<sup>2</sup> UIUC
-<sup>3</sup> MIT &nbsp; &nbsp; | &nbsp; &nbsp;  <sup>*</sup>Work done while at Apple </sub>
+<sub><sup>1</sup>Apple Inc.
+<sup>2</sup>UIUC
+<sup>3</sup>MIT &nbsp; &nbsp; | &nbsp; &nbsp;  <sup>*</sup>Work done while at Apple </sub>
 
 
 
