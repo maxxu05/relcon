@@ -30,6 +30,8 @@ Maxwell A Xu<sup>1,2*</sup>, Jaya Narain<sup>1</sup>, Gregory Darnell<sup>1</sup
 
 <br>
 
+<br>
+
 This codebase includes the full RelCon methodology and pre-training pipeline, along with data preprocessing and evaluation scripts for the public benchmarks presented in the paper. While we cannot release the pre-training dataset or the associated model weights, this repository provides the complete pre-training pipeline, enabling researchers to retrain the RelCon model on their own datasets. We hope this release will help construct a unified benchmark for motion tasks and also help facilitate further research in self-supervised learning for time-series foundation models and wearable data analysis.
 
 
