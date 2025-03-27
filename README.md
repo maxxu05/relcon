@@ -8,7 +8,7 @@ Maxwell A Xu<sup>1,2*</sup>, Jaya Narain<sup>1</sup>, Gregory Darnell<sup>1</sup
 
 
 
-####   Accepted at ICLR 2025. Please read our paper here: [https://arxiv.org/abs/2311.00519](https://arxiv.org/abs/2411.18822).
+####   Accepted at ICLR 2025. Please read our paper here: [https://openreview.net/pdf?id=k2uUeLCrQq](https://openreview.net/pdf?id=k2uUeLCrQq).
 <b>Abstract</b>: We present RelCon, a novel self-supervised Relative Contrastive learning approach for training a motion foundation model from wearable accelerometry sensors. First, a learnable distance measure is trained to capture motif similarity and domain-specific semantic information such as rotation invariance. Then, the learned distance provides a measurement of semantic similarity between a pair of accelerometry time-series, which we use to train our foundation model to model relative relationships across time and across subjects. The foundation model is trained on 1 billion segments from 87,376 participants, and achieves state-of-the-art performance across multiple downstream tasks, including human activity recognition and gait metric regression. To our knowledge, we are the first to show the generalizability of a foundation model with motion data from wearables across distinct evaluation tasks.
 
 <div align="center">RelCon FM - Field Human Activity Recognition</div>
